@@ -1,0 +1,2 @@
+/* automatically generated from COPYING */ static char copyright[]=
+"Primer Pooler v1.41 (c) 2016-18 Silas S. Brown.  For Wen.\n\nThis program is free software; you can redistribute and\nmodify it under the terms of the General Public License\nas published by the Free Software Foundation; either\nversion 3 of the License, or any later version.\n\nThis program is distributed in the hope that it will be\nuseful, but WITHOUT ANY WARRANTY.  See the GNU General\nPublic License for more details.\n";
