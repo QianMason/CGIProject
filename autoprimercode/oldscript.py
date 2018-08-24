@@ -151,38 +151,36 @@ def SettingFileParser(filepath):
 
 
 
-primerbool = False
 
-while not primerbool:
-    settingsboolean = input('Would you like to add a global parameter file?: y/n ')
-    if (settingsboolean == 'y'):
-    	setparametersbool = input('Would you like to set parameters in the command line(1) or provide your own setting file(2)?: 1/2 ')
-    	if setparametersbool == '1':
-    		filepa = input('Please provide a filepath for a template setting file: ')
-    		SettingFileParser(filepa)
-    		p3filesettings = '-p3_settings_file=' + filepa
-    	else:
-    		p3filesettings = '-p3_settings_file=' + input('Please type parameters file path: ')
+settingsboolean = input('Would you like to add a global parameter file?: y/n ')
+if (settingsboolean == 'y'):
+	setparametersbool = input('Would you like to set parameters in the command line(1) or provide your own setting file(2)?: 1/2 ')
+	if setparametersbool == '1':
+		filepa = input('Please provide a filepath for a template setting file: ')
+		SettingFileParser(filepa)
+		p3filesettings = '-p3_settings_file=' + filepa
+	else:
+		p3filesettings = '-p3_settings_file=' + input('Please type parameters file path: ')
 
 
 
 
 
 
-    inputlocation = input('Please type input filepath: ')
-    output = input('Please type output filepath: ')
-    outputlocation = '-output=' + output + 'primeroutput.txt'
+inputlocation = input('Please type input filepath: ')
+output = input('Please type output filepath: ')
+outputlocation = '-output=' + output + 'primeroutput.txt'
 
 
-    if (settingsboolean == 'y'):
-    	cmd = ['primer3_core', p3filesettings, outputlocation, inputlocation]
-    else:
-    	cmd = ['primer3_core', outputlocation, inputlocation]
+if (settingsboolean == 'y'):
+	cmd = ['primer3_core', p3filesettings, outputlocation, inputlocation]
+else:
+	cmd = ['primer3_core', outputlocation, inputlocation]
 
-    subprocess.call(cmd)
+subprocess.call(cmd)
 
-    PrimerParser(output + 'primeroutput.txt')
+PrimerParser(output + 'primeroutput.txt')
 
-    subprocess.call('./pooler')
+#subprocess.call('./pooler')
 
 

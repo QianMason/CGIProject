@@ -92,17 +92,17 @@ class AUTOPRIMER():
 
 	########## ENTRY AREA ##########
 
-	self.entry_1 = Entry(root) #
-	self.entry_2 = Entry(root)
-	self.entry_3 = Entry(root)
+	entry_1 = Entry(root) #
+	entry_2 = Entry(root)
+	entry_3 = Entry(root)
 
-	self.label_1 = Label(root, text="AUTOPRIMER")
-	self.button_1 = Button(root, text="Input Filepath: ", command=button1)
-	self.button_2 = Button(root, text="Output Filepath: ", command=button2)
-	self.button_3 = Button(root, text="Parameters Filepath: ", command=button3)
-	self.button_get = Button(root, text="Get Primers", command=doNothing)
-	self.button_pool = Button(root, text="Pool Primers", command=doNothing)
-	self.button_quit = Button(root, text="Quit", command=root.destroy)
+	label_1 = Label(root, text="AUTOPRIMER")
+	button_1 = Button(root, text="Input Filepath: ", command=button1)
+	button_2 = Button(root, text="Output Filepath: ", command=button2)
+	button_3 = Button(root, text="Parameters Filepath: ", command=button3)
+	button_get = Button(root, text="Get Primers", command=doNothing)
+	button_pool = Button(root, text="Pool Primers", command=doNothing)
+	button_quit = Button(root, text="Quit", command=root.destroy)
 
 	label_1.grid(row=0, columnspan=2) #grid doesnt take left right, it takes NSEW directions
 	button_1.grid(row=1, sticky=E, padx=1, pady=1)
