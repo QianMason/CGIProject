@@ -4,42 +4,39 @@ import platform
 import subprocess
 from tkinter.filedialog import *
 import tkinter.messagebox
-import primerscript
+#import oldscript
 
 
 
-inputbool = False
-outputbool = False
+inputbool = True
+outputbool = True
 parameterbool = False
 inputfp = ""
 outputfp = ""
 parameterfp = ""
 p3filestring = '-p3_settings_file='
 
-def button1():
+def button1(ifp):
 	entry_1.delete(0,END)
-	inputfilepath = askopenfilename()
-	entry_1.insert(0, inputfilepath)
-	inputfp = inputfilepath
+	ifp = askopenfilename()
+	entry_1.insert(0, ifp)
 	inputbool = True
-	print(inputbool)
+	print("input bool value is: " + str(inputbool))
 
 
-def button2():
+def button2(ofp):
 	entry_2.delete(0,END)
-	outputfilepath = asksaveasfilename()
-	entry_2.insert(0, outputfilepath)
-	outputfp = outputfilepath
+	ofp = asksaveasfilename()
+	entry_2.insert(0, ofp)
 	outputbool = True
-	print(outputbool)
+	print("output bool value is: " + str(outputbool))
 
-def button3():
+def button3(pfp):
 	entry_3.delete(0,END)
-	parameterfilepath = askopenfilename()
+	pfp = askopenfilename()
 	entry_3.insert(0, parameterfilepath)
-	parameterfp = parameterfilepath
 	parameterbool = True
-	print(parameterbool)
+	print("parameter bool value is: " + str(parameterbool))
 
 def buttonstart():
 	print("hi")
@@ -49,22 +46,20 @@ def doNothing():
 
 def getPrimers():
 	#check the booleans if input or output are false, then raise and exception
-	print(inputbool, outputbool)
-	if (inputbool == False or outputbool == False):
-		tkinter.messagebox.showinfo('AUTOPRIMER', 'No input or output filepath detected! Please give an input/output filepath please.')
+	#print(inputbool, outputbool)
+	if parameterbool == False:
+		outputlocation = '-output=' + outputfp + 'primer3output.txt'
+		cmd = ['primer3_core', outputlocation, inputfp]
+		subprocess.call(cmd)
+		print("line 63")
 	else:
-		if parameterbool == False:
-			outputlocation = '-output=' + outputfp + 'primer3output.txt'
-			cmd = ['primer3_core', outputlocation, inputfp]
-			subprocess.call(cmd)
-		else:
-			outputlocation = '-output=' + outputfp + 'primer3output.txt'
-			p3filesettings = p3filestring + parameterfilepath
-			cmd = ['primer3_core', p3filesettings, outputlocation, inputfp]
-			subprocess.call(cmd)
-
+		outputlocation = '-output=' + outputfp + 'primer3output.txt'
+		p3filesettings = p3filestring + parameterfilepath
+		cmd = ['primer3_core', p3filesettings, outputlocation, inputfp]
+		subprocess.call(cmd)
 
 root = Tk()
+root.title("Complete Genomics")
 
 ########## TOP MENU ##########
 
@@ -89,8 +84,8 @@ entry_2 = Entry(root) #output
 entry_3 = Entry(root) #parameters
 
 label_1 = Label(root, text="AUTOPRIMER")
-button_1 = Button(root, text="Input Filepath: ", command=button1)
-button_2 = Button(root, text="Output Filepath: ", command=button2)
+button_1 = Button(root, text="Input Filepath: ", command=button1(inputfp))
+button_2 = Button(root, text="Output Filepath: ", command=button2(outputfp))
 button_3 = Button(root, text="Parameters Filepath: ", command=button3)
 button_get = Button(root, text="Get Primers", command=getPrimers)
 button_pool = Button(root, text="Pool Primers", command=doNothing)
