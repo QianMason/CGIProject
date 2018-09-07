@@ -114,7 +114,6 @@ class AUTOPRIMER(tk.Tk):
 		parameterbool = True
 		print("parameter bool value is: " + str(parameterbool))
 
-
 def main():
 	autoprimer = AUTOPRIMER()
 	autoprimer.mainloop()

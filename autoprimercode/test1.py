@@ -42,6 +42,7 @@ class AUTOPRIMER:
 			setParameterbool(True)
 			print("parameter bool value is: " + str(self.parameterbool))
 		def getPrimers():
+
 			print(self.inputbool, self.outputbool)
 			if self.inputbool == False or self.outputbool == False:
 				pass
@@ -64,7 +65,7 @@ class AUTOPRIMER:
 			leftprimers = []
 			rightprimers = []
 			filepath = self.output + 'primer3output.txt'
-
+			missingprimerbool = False
 			with open(filepath, 'r') as primer_file:
 
 				lines = primer_file.readlines()
@@ -73,8 +74,10 @@ class AUTOPRIMER:
 						leftprimers.append(line.split('=')[1])
 					if (line.startswith('PRIMER_RIGHT_0_SEQUENCE')):
 						rightprimers.append(line.split('=')[1])
-					if (line.startswith('PRIMER_PAIR_NUM_RETURNED=0')):
-						print('primer pair not found for some sequence(s), please check output file')
+					if (line.startswith('PRIMER_PAIR_NUM_RETURNED=0') and missingprimerbool == False):
+						#print('primer pair not found for some sequence(s), please check output file')
+						missingprimerbool = True
+						tkinter.messagebox.showinfo('AUTOPRIMER', 'Primer pair not found for some sequence(s), please check output file')
 
 			#right here i may want to add functionality for the user to upload ane existing sheet to append more primers to?
 			with open(filepath + 'primerlist.txt', 'w+') as primer_output:
@@ -88,6 +91,8 @@ class AUTOPRIMER:
 		def poolPrimers():
 			subprocess.call('./pooler')
 
+
+
 		self.master = master
 		self.input = ""
 
@@ -99,6 +104,7 @@ class AUTOPRIMER:
 		self.p3filestring = '-p3_settings_file='
 		master.title("Complete Genomics Inc.")
 
+		########## WIDGETS ##########
 		entry_1 = Entry(master) #input
 		entry_2 = Entry(master) #output
 		entry_3 = Entry(master) #parameters
@@ -110,6 +116,7 @@ class AUTOPRIMER:
 		button_get = Button(master, text="Get Primers", command=getPrimers)
 		button_parse = Button(master, text="Parse Primers", command = PrimerParser)
 		button_pool = Button(master, text="Pool Primers", command=poolPrimers)
+		button_blast = Button(master, text="Blast Primers", command=doNothing)
 		button_quit = Button(master, text="Quit", command=master.destroy)
 
 
@@ -119,9 +126,10 @@ class AUTOPRIMER:
 		button_2.grid(row=2, sticky=E, padx=1, pady=1)
 		button_3.grid(row=3, sticky=E, padx=1, pady=1)
 		button_get.grid(row=4)
-		button_parse.grid(row=4, column=1)
-		button_pool.grid(row=4, column=2)
-		button_quit.grid(row=4, column=3)
+		button_parse.grid(row=4, sticky=W, column=1)
+		button_pool.grid(row=4, sticky=W, column=2)
+		button_blast.grid(row=4, sticky=W, column=3)
+		button_quit.grid(row=4, sticky=W, column=4)
 
 		entry_1.grid(row=1, column=1, sticky=W, padx=1, pady=1)
 		entry_2.grid(row=2, column=1, sticky=W, padx=1, pady=1)

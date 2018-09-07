@@ -16,25 +16,28 @@ outputfp = ""
 parameterfp = ""
 p3filestring = '-p3_settings_file='
 
-def button1(ifp):
+def button1():
 	entry_1.delete(0,END)
-	ifp = askopenfilename()
-	entry_1.insert(0, ifp)
+	inputfilepath = askopenfilename()
+	entry_1.insert(0, inputfilepath)
+	inputfp = inputfilepath
 	inputbool = True
 	print("input bool value is: " + str(inputbool))
 
 
-def button2(ofp):
+def button2():
 	entry_2.delete(0,END)
-	ofp = asksaveasfilename()
-	entry_2.insert(0, ofp)
+	outputfilepath = asksaveasfilename()
+	entry_2.insert(0, outputfilepath)
+	outputfp = outputfilepath
 	outputbool = True
 	print("output bool value is: " + str(outputbool))
 
-def button3(pfp):
+def button3():
 	entry_3.delete(0,END)
-	pfp = askopenfilename()
+	parameterfilepath = askopenfilename()
 	entry_3.insert(0, parameterfilepath)
+	parameterfp = parameterfilepath
 	parameterbool = True
 	print("parameter bool value is: " + str(parameterbool))
 
@@ -50,21 +53,15 @@ def getPrimers():
 	if parameterbool == False:
 		outputlocation = '-output=' + outputfp + 'primer3output.txt'
 		cmd = ['primer3_core', outputlocation, inputfp]
-		print(outputlocation)
-		print(inputfp + " : this is the input")
 		subprocess.call(cmd)
-		print("line 63")
 	else:
 		outputlocation = '-output=' + outputfp + 'primer3output.txt'
 		p3filesettings = p3filestring + parameterfilepath
 		cmd = ['primer3_core', p3filesettings, outputlocation, inputfp]
-		print("line 68")
 		subprocess.call(cmd)
-		print("line 70")
 
 
 root = Tk()
-root.title("Complete Genomics")
 
 ########## TOP MENU ##########
 
