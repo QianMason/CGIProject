@@ -4,27 +4,26 @@ from Bio.Blast import NCBIWWW
 from Bio.Blast import NCBIXML
 
 import requests
-print('line5')
-#blasturl = 'https://blast.ncbi.nlm.nih.gov/Blast.cgi?QUERY=ATCTTGGGGGCCATTTTTTACTGGCAA&DATABASE=nt&PROGRAM=blastn&CMD=Put'
+# blasturl = 'https://blast.ncbi.nlm.nih.gov/Blast.cgi?QUERY=ATCTTGGGGGCCATTTTTTACTGGCAA&DATABASE=nt&PROGRAM=blastn&CMD=Put'
+#
+# blasturljson = requests.get(blasturl)
 
-#blasturljson = requests.get(blasturl)
+root = Tk()
+root.fileName = askopenfilename()
 
-# root = Tk()
-# root.fileName = askopenfilename()
-#
-# with open(root.fileName) as file:
-#     fstring = file.read()
-#
-#
-#
-# fasta_string = fstring
-# print('line 11')
-# result_handle = NCBIWWW.qblast("blastn", "nt", fasta_string)
-# print('line 13')
-#
-# with open("my_blast.xml", "w") as out_handle:
-#     out_handle.write(result_handle.read())
-# result_handle.close()
+with open(root.fileName) as file:
+    fstring = file.read()
+
+
+
+fasta_string = fstring
+print('line 11')
+result_handle = NCBIWWW.qblast("blastn", "nt", fasta_string)
+print('line 13')
+
+with open("my_blast.xml", "w") as out_handle:
+    out_handle.write(result_handle.read())
+result_handle.close()
 
 result_handle = open('my_blast.xml')
 
@@ -37,6 +36,8 @@ evalue = float(input('Please enter an e-value threshhold: '))
 item = next(blast_record)
 
 E_VALUE_THRESH = evalue
+
+# need to add a file write to the thing so instead of printing it writes the information somewhere so that it can be displayed
 
 while True:
     try:

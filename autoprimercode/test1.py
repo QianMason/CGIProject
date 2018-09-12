@@ -102,6 +102,7 @@ class AUTOPRIMER:
 		self.outputbool = False
 		self.parambool = False
 		self.p3filestring = '-p3_settings_file='
+		self.blast = BlastAPI(self)
 		master.title("Complete Genomics Inc.")
 
 		########## WIDGETS ##########
@@ -116,7 +117,7 @@ class AUTOPRIMER:
 		button_get = Button(master, text="Get Primers", command=getPrimers)
 		button_parse = Button(master, text="Parse Primers", command = PrimerParser)
 		button_pool = Button(master, text="Pool Primers", command=poolPrimers)
-		button_blast = Button(master, text="Blast Primers", command=doNothing)
+		button_blast = Button(master, text="Blast Primers", command=self.blast)
 		button_quit = Button(master, text="Quit", command=master.destroy)
 
 
@@ -134,6 +135,62 @@ class AUTOPRIMER:
 		entry_1.grid(row=1, column=1, sticky=W, padx=1, pady=1)
 		entry_2.grid(row=2, column=1, sticky=W, padx=1, pady=1)
 		entry_3.grid(row=3, column=1, sticky=W, padx=1, pady=1)
+
+class BlastAPI:
+	from Bio.Blast import NCBIWWW
+	from Bio.Blast import NCBIXML
+	def __init__(self, parent):
+		self.parent = parent
+		super(BlastAPI, self).__init__()
+
+
+		#need an entry area for file finding
+		#need a display text area on the right for the output
+
+		eValueSetting = Entry(parent)
+		closeButton = Button(parent, text="Close", command=self.destroy)
+		inputButton = Button(parent, text="Input file", command=doNothing)
+		entryField = Entry(parent)
+
+		#layout
+		self.title('Complete Genomics Inc.')
+
+		def blastPrimers():
+			filename = askopenfilename()
+			with open(filename) as file:
+				string = file.read()
+
+			fasta = fasta_string
+
+			result_handle = NCBIWW.qblast("blastn", "nt", fasta)
+
+			with open("my_blast.xml", "w") as out_handle:
+			    out_handle.write(result_handle.read())
+			result_handle.close()
+
+			result_handle = open('my_blast.xml')
+			blast_record = NCBIXML.parse(result_handle)
+			evalue = 1 #add make it a GUI alterable value blastPrimers
+			item = next(blast_record)
+			E_VALUE_THRESH = eValueSetting
+			while True:
+				with open('BlastResults.txt', w) as blast:
+				    try:
+				        for alignment in item.alignments:
+				             for hsp in alignment.hsps:
+				                 if hsp.expect < E_VALUE_THRESH: #use this to determine if the result will be applicable / HAVE USER SET / default value?
+				                     blast.write("****Alignment****")
+				                     blast.write("sequence:", alignment.title)
+				                     blast.write("length:", alignment.length)
+				                     blast.write("e value:", hsp.expect)
+				                     blast.write(hsp.query[0:75] + "...")
+				                     blast.write(hsp.match[0:75] + "...")
+				                     blast.write(hsp.sbjct[0:75] + "...")
+				        item = next(blast_record)
+				    except StopIteration:
+				        print("Done!")
+				        break
+
 
 
 

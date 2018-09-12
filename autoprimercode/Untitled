@@ -1,5 +1,0 @@
-import urllib.parse
-
-url = urllib.parse.urlencode({'address': 'lhr'})
-
-print(url)
