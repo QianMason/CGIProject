@@ -162,7 +162,7 @@ class BlastAPI:
 
 			fasta = fasta_string
 
-			result_handle = NCBIWW.qblast("blastn", "nt", fasta)
+			result_handle = NCBIWWW.qblast("blastn", "nt", fasta)
 
 			with open("my_blast.xml", "w") as out_handle:
 			    out_handle.write(result_handle.read())
