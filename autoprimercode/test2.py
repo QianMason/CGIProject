@@ -22,9 +22,9 @@ class AutoPrimer(tk.Tk): # Class names should normally use the CapWords conventi
         self.entry_input = tk.Entry(self)
         self.entry_output = tk.Entry(self)
         self.entry_parameters = tk.Entry(self)
-        self.entry_input.grid(row=1, column=1, padx=1, pady=1, sticky="w")
-        self.entry_output.grid(row=2, column=1, padx=1, pady=1, sticky="w")
-        self.entry_parameters.grid(row=3, column=1, padx=1, pady=1, sticky="w")
+        self.entry_input.grid(row=1, column=1, padx=1, pady=1, sticky="e")
+        self.entry_output.grid(row=2, column=1, padx=1, pady=1, sticky="e")
+        self.entry_parameters.grid(row=3, column=1, padx=1, pady=1, sticky="e")
 
         self.label1 = tk.Label(self, text="AUTOPRIMER").grid(row=0, columnspan=4)
         tk.Button(self, text="Input Filepath: ", command=self.button1).grid(row=1, padx=1, pady=1, sticky="e")
@@ -159,7 +159,8 @@ class BlastAPI(tk.Toplevel):
         self.e_value_setting.grid(row = 8, column = 1) # Used pack here for quick testing. You will need to work on geometry yourself.
         #tk.Button(mainframe, text="Close", command=self.destroy).grid(row = 7, column = 1)
         tk.Button(mainframe, text="Input file", command=self.buttonfile).grid(row = 2, column = 1) #add method that does same thing for input button in autoprimer class
-        tk.Button(mainframe, text="Blast Primers", command=self.blast_primers).grid(row = 9, column = 1, pady = 20)
+        tk.Button(mainframe, text="Blast Primers", command=self.blast_primers).grid(row = 10, column = 1, pady = 20)
+        tk.Button(mainframe, text='Set e-value', command=self.set_evalue).grid(row=9, column=1)
         self.tkvar1.trace('w', self.change_database)
         self.tkvar2.trace('w', self.change_searchtype)
 
@@ -169,6 +170,10 @@ class BlastAPI(tk.Toplevel):
 
     def change_searchtype(self, *args):
         self.searchtype = self.tkvar2.get()
+
+    def set_evalue(self, *args):
+        self.e_value_thresh = self.e_value_setting.get()
+        print(self.e_value_thresh)
 
 
 
@@ -194,8 +199,12 @@ class BlastAPI(tk.Toplevel):
             self.blast_record = NCBIXML.parse(result_handle)
             self.item = next(self.blast_record)
             #self.e_value_thresh = float(self.e_value_setting.get())
-            self.e_value_thresh = 10
+            #self.e_value_thresh = 10
+
             self.blast_write_loop()
+        elif self.e_value_thresh == "":
+            tkinter.messagebox.showinfo('AUTOPRIMER', 'No e-value threshhold set! Please specify an e-value cutoff.')
+
         else:
             tkinter.messagebox.showinfo('AUTOPRIMER', 'No input file detected! Please load an input file in FASTA format.')
 
