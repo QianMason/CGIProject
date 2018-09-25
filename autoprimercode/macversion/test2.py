@@ -2,6 +2,7 @@ import subprocess
 import tkinter as tk # import tkinter as tk is good for compatibility and maintainability. Don't use *
 from tkinter.filedialog import *
 import tkinter.messagebox
+import requests
 from Bio.Blast import NCBIWWW
 from Bio.Blast import NCBIXML
 
