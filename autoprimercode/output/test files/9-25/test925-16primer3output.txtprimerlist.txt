@@ -1,0 +1,20 @@
+>exon2-F
+gggctaattgcgggactctt
+>exon2-R
+cgttagcctttgacccctgt
+>exon3-F
+error: no primer available
+>exon3-R
+error: no primer available
+>exon4-F
+error: no primer available
+>exon4-R
+error: no primer available
+>exon8-F
+aagccaaaggaggatggagc
+>exon8-R
+tttggaggtggcatgagagc
+>exon9-F
+cttccctctgcctgtggatc
+>exon9-R
+tgtggatccagaggaggagt

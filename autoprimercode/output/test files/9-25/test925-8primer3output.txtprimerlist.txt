@@ -1,0 +1,12 @@
+>exon2"-F
+error: no primer available
+>exon2"-R
+error: no primer available
+>exon3"-F
+gggctaattgcgggactctt
+>exon3"-R
+cgttagcctttgacccctgt
+>exon4"-F
+error: no primer available
+>exon4"-R
+error: no primer available

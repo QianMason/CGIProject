@@ -1,0 +1,15 @@
+>SEQUENCE_ID="exon2"
+-F
+error: no primer available>SEQUENCE_ID="exon2"
+-R
+error: no primer available>SEQUENCE_ID="exon3"
+-F
+gggctaattgcgggactctt
+>SEQUENCE_ID="exon3"
+-R
+cgttagcctttgacccctgt
+>SEQUENCE_ID="exon4"
+-F
+error: no primer available>SEQUENCE_ID="exon4"
+-R
+error: no primer available

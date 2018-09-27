@@ -57,8 +57,8 @@ class AutoPrimer(tk.Tk): # Class names should normally use the CapWords conventi
         pfp = askopenfilename()
         self.entry_parameters.insert(0, pfp)
         self.setParameterBool(True)
-    def buttonprint(self):
-        tkinter.messagebox.showinfo('AUTOPRIMER', str(self.inputbool))
+    # def buttonprint(self):
+    #     tkinter.messagebox.showinfo('AUTOPRIMER', str(self.inputbool))
 
         #Methods that rely on class attributes after using above buttons to set
     def get_primers(self):
@@ -70,17 +70,19 @@ class AutoPrimer(tk.Tk): # Class names should normally use the CapWords conventi
                 outputlocation = '-output=' + self.output + 'primer3output.txt'
                 cmd = ['primer3_core', outputlocation, self.input]
                 subprocess.call(cmd)
+                tkinter.messagebox.showinfo('AUTOPRIMER', 'Please check output file for desired content. If it is incorrect, please alter settings to achieve desired output.')
             else: #parameters present
                 outputlocation = '-output=' + self.output + 'primer3output.txt'
                 p3filesettings = self.p3filestring + self.param
                 cmd = ['primer3_core', p3filesettings, outputlocation, self.input]
                 subprocess.call(cmd)
+                tkinter.messagebox.showinfo('AUTOPRIMER', 'Please check output file for desired content. If it is incorrect, please alter settings to achieve desired output.')
 
     def primer_parser(self):
 		#takeoutput of primer3 run and parse for primers
 		#ask user to indicate number of primers they set or you can reuse the number the user set earlier
         count = 0
-        primerpairs = {}
+        primernames = []
         leftprimers = []
         rightprimers = []
         filepath = self.output + 'primer3output.txt'
@@ -88,22 +90,35 @@ class AutoPrimer(tk.Tk): # Class names should normally use the CapWords conventi
         with open(filepath, 'r') as primer_file:
             lines = primer_file.readlines()
             for line in lines:
+                if line.startswith('PRIMER_ERROR=Missing SEQUENCE tag'):
+                    continue
+                if (line.startswith('SEQUENCE_ID')):
+                    splitline = line.split('=')[1].strip()
+                    if splitline.startswith('"') and splitline.endswith('"'):
+                        primernames.append(splitline[1:-1])
+                    else:
+                        primernames.append(splitline)
                 if (line.startswith('PRIMER_LEFT_0_SEQUENCE')):
                     leftprimers.append(line.split('=')[1])
                 if (line.startswith('PRIMER_RIGHT_0_SEQUENCE')):
                     rightprimers.append(line.split('=')[1])
-                if (line.startswith('PRIMER_PAIR_NUM_RETURNED=0') and missingprimerbool == False):
+                if ((line.startswith('PRIMER_PAIR_NUM_RETURNED=0') and missingprimerbool == False) or line.startswith('PRIMER_ERROR')):
 					#print('primer pair not found for some sequence(s), please check output file')
+                    leftprimers.append('error: no primer available')
+                    rightprimers.append('error: no primer available')
+                    if (missingprimerbool == True):
+                        continue
                     missingprimerbool = True
                     tkinter.messagebox.showinfo('AUTOPRIMER', 'Primer pair not found for some sequence(s), please check output file')
 
 		#right here i may want to add functionality for the user to upload ane existing sheet to append more primers to?
         with open(filepath + 'primerlist.txt', 'w+') as primer_output:
+
             for i in range(len(leftprimers)):
-                primer_output.write('>' + 'primer' + str(i) + '-F' + '\n')
-                primer_output.write(leftprimers[i])
-                primer_output.write('>' + 'primer' + str(i) + '-R' + '\n')
-                primer_output.write(rightprimers[i])
+                primer_output.write('>' + primernames[i].strip() + '-F' + '\n')
+                primer_output.write(leftprimers[i].strip() + '\n')
+                primer_output.write('>' + primernames[i].strip() + '-R' + '\n')
+                primer_output.write(rightprimers[i].strip() + '\n')
 
     def pool_primers(self):
         subprocess.call('./pooler4')
