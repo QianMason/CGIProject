@@ -1,0 +1,20 @@
+>linglingsprimer1-F
+error: no primer available
+>linglingsprimer1-R
+error: no primer available
+>linglingsprimer2-F
+error: no primer available
+>linglingsprimer2-R
+error: no primer available
+>exon4-F
+error: no primer available
+>exon4-R
+error: no primer available
+>exon8-F
+ccaccgtcatcaccttcctt
+>exon8-R
+cacaaccttcagtgccttcc
+>exon9-F
+ttccttcctgcttccctctg
+>exon9-R
+ccagaggaggagtatgtgtga
